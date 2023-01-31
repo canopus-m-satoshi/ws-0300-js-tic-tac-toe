@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile:css": "node-sass -rw --output-style compressed stylesheets/sass/ -o stylesheets"
+    // "compile": "sass stylesheets/sass/index.sass stylesheets/style.css -w"
   },
   "repository": {
     "type": "git",
