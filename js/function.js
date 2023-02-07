@@ -26,6 +26,7 @@ let count = 0;
 
 cell.forEach(function(element) {
   element.addEventListener('click', function(e) {
+    console.log(winSituation);
     // 書き込まれてる場合もしくは、
     // countが9の場合は、クリックしても無効化
     if (element.innerHTML !== '' || count === 9){
@@ -33,32 +34,33 @@ cell.forEach(function(element) {
     }
     console.log(element, cell, e);
     // element.innerHTML()
-    console.log(currentPlayer + 'add');
     // element.textContent = currentPlayer ? crossPlayer: circlePlayer;]
-    element.innerHTML = currentPlayer ? circlePlayer : crossPlayer;
-    console.log(currentPlayer + 'add');
+    // switchPlayer();
+    element.innerHTML = currentPlayer === circlePlayer ? circlePlayer : crossPlayer;
+    console.log(currentPlayer + '=addInnerHTML');
     // ターン変更
-    changePlayer();
+    switchPlayer();
     count++;
-    console.log(count + 'add');
     if (count === 9) {
       messageClass.innerHTML = draw;
     }
   })
 })
 
-function changePlayer() {
+function switchPlayer() {
   if (currentPlayer === circlePlayer) {
+    // プレイヤーを入れ替える
      currentPlayer = crossPlayer;
+     // turnのアンダーバーの位置を入れ替える
      crossClass.classList.add('active');
      circleClass.classList.remove('active');
-     console.log(crossClass, circleClass, currentPlayer+ 't');
      return;
   } else {
+    // プレイヤーを入れ替える
     currentPlayer = circlePlayer;
+     // turnのアンダーバーの位置を入れ替える
     crossClass.classList.remove('active');
     circleClass.classList.add('active');
-    console.log(crossClass, circleClass, currentPlayer+ 't');
     return;
   }
 }
