@@ -3,93 +3,60 @@ const crossClass = document.querySelector('.cross');
 const circleClass = document.querySelector('.circle');
 const messageClass = document.querySelector('.message');
 const tableClass = document.querySelector('.table');
-const cell = document.querySelectorAll('.cell');
-
-// 勝ちパターン
-const winSituation = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-];
-
-const crossPlayer = 'x';
+const cells = document.querySelectorAll('.cell');
 const circlePlayer = '○';
+const circleNum = 1;
+const crossPlayer = 'x';
+const crossNum = 2;
+const maxCellNum = 9;
+const boardMaxIndex = 2;
 const draw = 'draw';
+const deleteCount = 1;
 
 let currentPlayer = '○';
 let count = 0;
-let checkedData = [];
+let fin = false;
+let board = [
+  [0, 0, 0], // 0
+  [0, 0, 0], // 1
+  [0, 0, 0]  // 2
+];
 
-
-cell.forEach(function (element) {
+cells.forEach(function (element) {
   element.addEventListener('click', function (e) {
-    console.log(winSituation + '=winSituation');
-    // 書き込まれてる場合もしくは、
-    // countが9の場合は、クリックしても無効化
-    if (element.innerHTML !== '' || count === 9) {
+    // 書き込まれてる場合、countが9の場合、一列揃った場合は、クリックしても無効化
+    if (element.innerHTML !== '' || count === maxCellNum || fin === true) {
       return;
     }
-    console.log(element, cell, e);
+
+    // プレイヤーの記号を格納
     element.innerHTML = currentPlayer === circlePlayer ? circlePlayer : crossPlayer;
-    console.log(currentPlayer + '=addInnerHTML', element.id, e);
 
     let checkedId = element.id;
     let checkedPlayer = element.innerHTML;
-    console.log(checkedPlayer + '=checkWin');
 
-    // 勝敗チェック
-    checkWin(checkedId, checkedPlayer);
-    // ターン変更
+    // プレイヤー番号を格納
+    let playerNum = checkedPlayer === circlePlayer ? circleNum : crossNum;
+
+    checkBoard(checkedId, playerNum);
+    if (checkWin(circleNum)) {
+      messageClass.innerHTML = '○ win!!';
+      return fin = true;
+    };
+
+    if (checkWin(crossNum)) {
+      messageClass.innerHTML = '× win!!';
+      return fin = true;
+    }
     switchPlayer();
     count++;
-    if (count === 9) {
+
+    // マスが全て埋まったら、’引き分け’を表示
+    if (count === maxCellNum) {
       messageClass.innerHTML = draw;
     }
   })
 })
-
-// 配置されている記号を配列に格納する。
-// let empty_count = 0;
-// let datas = [];
-// for (let i = 0; i < cells.length; i++) {
-//   datas.push(cells[i].textContent);
-//   if (!cells[i].textContent) {
-//     empty_count++;
-//   }
-// }
-// ３つ並んでいるかチェックする
-// if (this.check_line(datas)) {
-//   this.game_over(winner);
-// }
-// MAIN.prototype.check_line = function (datas) {
-//   if (!datas) { return null; }
-//   for (let i = 0; i < pattern.length; i++) {
-//     if (!datas[pattern[i][0]]) { continue; }
-//     if (datas[pattern[i][0]] === datas[pattern[i][1]]
-//       && datas[pattern[i][0]] === datas[pattern[i][2]]) {
-//       return datas[pattern[i][0]];
-//     }
-//   }
-//   return false;
-// };
-
-function checkWin(celNum, player) {
-  // クリックしたidを取得＝マスのどこにチェックしたかわかる
-  // それが○or× なのか確認
-  // 配列に突っ込む？
-  // winSituationのどれかに当てはまらないか確認？
-  console.log(celNum);
-  for (let i = 0; i < winSituation.length; i++) {
-    console.log(cell[i].textContent + '←' + i + '///pattern==' + winSituation[i] + '///winSituation[0]==' + winSituation[i][0] + '///==' + winSituation[i][1] + '///' + winSituation[i][2]);
-  }
-  return;
-}
-
 
 function switchPlayer() {
   if (currentPlayer === circlePlayer) {
@@ -113,3 +80,37 @@ function switchPlayer() {
 restart.addEventListener('click', function () {
   window.location.reload();
 });
+
+// board配列に、チェックしたプレイヤー番号を格納
+function checkBoard(checkedId, playerNum) {
+  if (checkedId === '0' || checkedId === '1' || checkedId === '2') {
+    return board[0].splice(checkedId, deleteCount, playerNum);
+  } else if (checkedId === '3' || checkedId === '4' || checkedId === '5') {
+    return board[1].splice(checkedId - 3, deleteCount, playerNum);
+  } else if (checkedId === '6' || checkedId === '7' || checkedId === '8') {
+    return board[2].splice(checkedId - 6, deleteCount, playerNum);
+  }
+}
+
+// 勝敗チェック
+function checkWin(num) {
+  // 縦横列 チェック
+  for (let i = 0; i < boardMaxIndex; i++) {
+    if (board[i][0] === num && board[i][1] === num && board[i][2] === num ){
+        return true;
+    }
+    if (board[0][i] === num && board[1][i] === num && board[2][i] === num ){
+      return true;
+    }
+  }
+
+  // 斜列チェック
+  if (board[0][0] === num && board[1][1] === num && board[2][2] === num ){
+      return true;
+  }
+  if (board[0][2] === num && board[1][1] === num && board[2][0] === num ){
+      return true;
+  }
+
+  return false;
+}
