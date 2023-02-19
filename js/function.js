@@ -95,21 +95,22 @@ function checkBoard(checkedId, playerNum) {
 // 勝敗チェック
 function checkWin(num) {
   // 縦横列 チェック
-  for (let i = 0; i < boardMaxIndex; i++) {
+  for (let i = 0; i <= boardMaxIndex; i++) {
+    console.log(i + '=i');
     if (board[i][0] === num && board[i][1] === num && board[i][2] === num ){
-        return true;
+      return true;
     }
     if (board[0][i] === num && board[1][i] === num && board[2][i] === num ){
       return true;
     }
-  }
 
+  }
   // 斜列チェック
   if (board[0][0] === num && board[1][1] === num && board[2][2] === num ){
-      return true;
+    return true;
   }
   if (board[0][2] === num && board[1][1] === num && board[2][0] === num ){
-      return true;
+    return true;
   }
 
   return false;
