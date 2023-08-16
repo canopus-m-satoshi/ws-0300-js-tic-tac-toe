@@ -1,0 +1,15 @@
+@use 'variable' as v;
+
+.turn-box {
+  display: flex;
+  justify-content: center;
+}
+
+.turm-box-item {
+  font-size: 1.5rem;
+  padding: 10px 28px;
+
+  &.js-active {
+    border-bottom: 4px solid v.$accent-color;
+  }
+}

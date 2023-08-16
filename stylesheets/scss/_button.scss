@@ -1,0 +1,14 @@
+@use 'variable' as v;
+
+.button {
+  padding: 6px 35px;
+  width: 100%;
+  border: 2px solid v.$accent-color;
+  border-radius: 4px;
+  display: inline-block;
+
+  &:hover {
+    color: v.$background-color;
+    background: v.$accent-color;
+  }
+}

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Tic Tac Toe</title>
+    <title>[DEV] Tic Tac Toe</title>
     <link
       href="stylesheets/css/index.css"
       rel="stylesheet"
@@ -11,8 +11,45 @@
     />
   </head>
   <body>
-    <div class="container">
+    <div class="l-container">
       <!-- write your html -->
+      <header class="l-header">
+        <h1>TIC TAC TOE</h1>
+      </header>
+      <main>
+        <div class="turn-box">
+          <div class="turm-box-item js-active">⚪︎</div>
+          <div class="turm-box-item">×</div>
+          <!-- turm-box-item -->
+        </div>
+        <!-- turn-box -->
+        <div class="board">
+          <table>
+            <tbody>
+              <tr class="row">
+                <td class="cell" data-key="1"></td>
+                <td class="cell" data-key="2"></td>
+                <td class="cell" data-key="3"></td>
+              </tr>
+              <tr class="row">
+                <td class="cell" data-key="4"></td>
+                <td class="cell" data-key="5"></td>
+                <td class="cell" data-key="6"></td>
+              </tr>
+              <tr class="row">
+                <td class="cell" data-key="7"></td>
+                <td class="cell" data-key="8"></td>
+                <td class="cell" data-key="9"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+      <footer class="l-footer">
+        <p class="state">starting...</p>
+
+        <button class="button">RESTART</button>
+      </footer>
     </div>
     <script type="text/javascript" src="js/function.js"></script>
   </body>
