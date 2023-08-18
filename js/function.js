@@ -45,6 +45,7 @@ cells.forEach((cell, index) => {
     /*
      * const player = isTurnCircle ? circlePlayer : crossPlayer
      * const winner = player ? circlePlayer : crossPlayer
+     * ↑　playerがtrue/falseかどうかをチェックしてしまっているので、常にcirclePlayerが返されてしまった
      */
 
     const winner = isTurnCircle ? circlePlayer : crossPlayer
@@ -52,6 +53,9 @@ cells.forEach((cell, index) => {
     if (isWin) {
       state.innerHTML = `${winner} is win!`
       cell.setAttribute('disabled', '')
+
+      // 勝者が決まった時点で処理を終了する
+      return
     } else {
       // クリックごとに「turn-box-item」の下線をスイッチさせる
       if (isTurnCircle) {
