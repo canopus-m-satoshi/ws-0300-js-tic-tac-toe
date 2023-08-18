@@ -25,15 +25,6 @@ cells.forEach((cell, index) => {
     // 勝敗が決まったor引き分け時は反応させない
     if (cell.innerHTML != '' || count === maxCount || isWin) return
 
-    // クリックごとに「turn-box-item」の下線をスイッチさせる
-    if (isTurnCircle) {
-      circleTurn.classList.remove('js-active')
-      crossTurn.classList.add('js-active')
-    } else {
-      circleTurn.classList.add('js-active')
-      crossTurn.classList.remove('js-active')
-    }
-
     // index = セルの添字を取得
     const row = Math.floor(index / 3) // クリックされた行の位置を特定
     const col = index % 3 // クリックされた列の位置を特定
@@ -41,23 +32,35 @@ cells.forEach((cell, index) => {
     if (isTurnCircle) {
       cell.innerHTML = circlePlayer
       board[row][col] = circleNum
-      // isTurnCircle = false
     } else {
       cell.innerHTML = crossPlayer
       board[row][col] = crossNum
-      // isTurnCircle = true
     }
 
     // 勝敗チェック
-    const player = isTurnCircle ? circlePlayer : crossPlayer
     const checkNum = isTurnCircle ? circleNum : crossNum
-    const winner = player ? circlePlayer : crossPlayer
-
     checkWin(checkNum)
+
+    // 現在のプレイヤーを判別し勝者を画面に表示
+    /*
+     * const player = isTurnCircle ? circlePlayer : crossPlayer
+     * const winner = player ? circlePlayer : crossPlayer
+     */
+
+    const winner = isTurnCircle ? circlePlayer : crossPlayer
 
     if (isWin) {
       state.innerHTML = `${winner} is win!`
       cell.setAttribute('disabled', '')
+    } else {
+      // クリックごとに「turn-box-item」の下線をスイッチさせる
+      if (isTurnCircle) {
+        circleTurn.classList.remove('js-active')
+        crossTurn.classList.add('js-active')
+      } else {
+        circleTurn.classList.add('js-active')
+        crossTurn.classList.remove('js-active')
+      }
     }
 
     if (isTurnCircle) {
@@ -75,7 +78,6 @@ cells.forEach((cell, index) => {
 })
 
 const checkWin = (num) => {
-  console.log(num)
   if (board[0][0] === num && board[0][1] === num && board[0][2] === num) {
     return (isWin = true)
   } else if (
