@@ -52,9 +52,9 @@ cells.forEach((cell, index) => {
 
     if (isWin) {
       state.innerHTML = `${winner} is win!`
-      cell.setAttribute('disabled', '')
-
       // 勝者が決まった時点で処理を終了する
+
+      cell.setAttribute('disabled', '')
       return
     } else {
       // クリックごとに「turn-box-item」の下線をスイッチさせる
